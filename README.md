@@ -5,11 +5,16 @@ The proposal of data engineering project for Sertis - data engineer test
 ---
 # Task1: ETL Pipeline Implementation
 #### Overview and Description
-1. Airflow to be workflow orchestration
-2. Pyspark and Python to do ETL.
-3. Docker Compose to maintain Spark cluster, Postgres and Airflow.
-4. Load to Destination: Postgres database as image below.
-5. Docker Compose is in `docker`, Pyspark code is in `scripts` and Airflow DAG is in `dags`.
+1. **Airflow** used to be workflow orchestration
+2. **Pyspark** and Python to do ETL.
+3. **Docker Compose** to maintain Spark cluster, Postgres and Airflow.
+4. Load to destination: **Postgres** database as shown image below.
+5. components:
+- Pyspark code is in `/scripts`
+- Airflow DAG is in `/dags`
+- Warehouse database/Spark/Airflow is in `/docker`
+- Tests is in `/tests`
+- Jupyter Notebook is in `/notebook`
 
 <p align="center"><img src="images/warehouse-database.png" alt="drawing" width="500"/></p>
 
