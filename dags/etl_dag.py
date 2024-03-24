@@ -13,19 +13,30 @@ DAG_ID = str(os.path.basename(__file__).replace(".py", ""))
 
 CURRENT_DATETIME = datetime.now(pytz.timezone('Asia/Bangkok'))
 
+BRONZE_ZONE_DIR: str = "bronze"
 SILVER_ZONE_DIR: str = "silver"
+GOLD_ZONE_DIR: str = "gold"
+
 DATABASE_NAME = "warehouse"
 TABLE_NAME = "customers"
+
+YEAR = CURRENT_DATETIME.year
+MONTH = CURRENT_DATETIME.month
+DAY = CURRENT_DATETIME.day
+
+destination_dir = f"data/{SILVER_ZONE_DIR}/table={TABLE_NAME}/year={YEAR}/month={MONTH}/day={DAY}/"
 
 DESTINATION_ENDPOINT = f'postgresql://airflow:airflow@postgres:5432/{DATABASE_NAME}'
 ENGINE = create_engine(DESTINATION_ENDPOINT)
 
-
+###
+# in order to load for small table
+###
 def load():
     year = CURRENT_DATETIME.year
     month = CURRENT_DATETIME.month
     day = CURRENT_DATETIME.day
-    source_dir = "data/{}/table={}/year={}/month={}/day={}/".format(SILVER_ZONE_DIR, TABLE_NAME, year, month, day)
+    source_dir = "data/{}/table={}/year={}/month={}/day={}/".format(GOLD_ZONE_DIR, TABLE_NAME, year, month, day)
     df = pq.read_table(source_dir).to_pandas()
 
     df.to_sql(name=TABLE_NAME, con=ENGINE, if_exists="append", index=False)
@@ -49,7 +60,7 @@ with DAG(dag_id=DAG_ID,
         task_id="etl_task",
         application="scripts/main.py",
         application_args=["--source", "data/transaction.csv",
-                          "--destination", f"data/{SILVER_ZONE_DIR}/table={TABLE_NAME}"],
+                          "--destination", destination_dir],
         conn_id="spark_cnx",
         verbose=True,
         conf={

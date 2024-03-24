@@ -17,9 +17,6 @@ spark.sparkContext.setLogLevel("INFO")
 log4j = spark._jvm.org.apache.log4j
 logger = log4j.LogManager.getLogger(__name__)
 
-CURRENT_DATETIME = datetime.now(pytz.timezone('Asia/Bangkok'))
-SILVER_ZONE_DIR: str = "silver"
-
 
 def extract(source_file_path: str):
     logger.info("start extract...")
@@ -62,18 +59,10 @@ def transform_summarize(df1: SparkDataFrame, df2: SparkDataFrame, join_keys: str
 
 def load(df: SparkDataFrame, destination_file_path: str):
     logger.info("start load...")
-
-    year = CURRENT_DATETIME.year
-    month = CURRENT_DATETIME.month
-    day = CURRENT_DATETIME.day
-    partition_dir = "year={}/month={}/day={}/".format(year, month, day)
-    path = os.path.join(destination_file_path, partition_dir)
-    logger.info(f"------------write_path: {path}")
-
     ###
     # write to storage path
     ###
-    df.write.option("header", "true").mode('overwrite').csv(path)
+    df.write.option("header", "true").mode('overwrite').csv(destination_file_path)
 
     ###
     # incase to load to db
