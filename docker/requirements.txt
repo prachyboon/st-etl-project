@@ -1,0 +1,12 @@
+numpy==1.24.3
+pandas==1.5.3
+tqdm==4.65.0
+pyspark==3.3.3
+pyarrow
+fastparquet
+psycopg2-binary
+boto3
+pytest
+apache-airflow
+sqlalchemy
+apache-airflow-providers-apache-spark
