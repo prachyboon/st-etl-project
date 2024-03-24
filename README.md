@@ -3,7 +3,22 @@
 The proposal of data engineering project for Sertis - data engineer test
 
 ---
-# Part2: System Architecture
+# Task1: ETL Pipeline Implementation
+#### Overview and Description
+1. Airflow to be workflow orchestration
+2. Pyspark and Python to do ETL.
+3. Docker Compose to maintain Spark cluster, Postgres and Airflow.
+4. Load to Destination: Postgres database as image below.
+5. Docker Compose is in `docker`, Pyspark code is in `scripts` and Airflow DAG is in `dags`.
+
+<p align="center"><img src="images/warehouse-database.png" alt="drawing" width="500"/></p>
+
+**Note: 2 things that I missed** 
+- I have not created `git-patch` because I...forgot to read instruction clear.
+- Unittest and Integration test have not done to cover all test cases.  
+
+---
+# Task2: System Architecture
 ### TLDR: Conclusion
 
 - **AWS**, is the underlying cloud platform for ETL pipeline in this project.
