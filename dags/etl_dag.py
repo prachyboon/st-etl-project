@@ -24,14 +24,12 @@ YEAR = CURRENT_DATETIME.year
 MONTH = CURRENT_DATETIME.month
 DAY = CURRENT_DATETIME.day
 
-destination_dir = f"data/{SILVER_ZONE_DIR}/table={TABLE_NAME}/year={YEAR}/month={MONTH}/day={DAY}/"
+destination_dir = f"data/{GOLD_ZONE_DIR}/table={TABLE_NAME}/year={YEAR}/month={MONTH}/day={DAY}/"
 
 DESTINATION_ENDPOINT = f'postgresql://airflow:airflow@postgres:5432/{DATABASE_NAME}'
 ENGINE = create_engine(DESTINATION_ENDPOINT)
 
-###
-# in order to load for small table
-###
+
 def load():
     year = CURRENT_DATETIME.year
     month = CURRENT_DATETIME.month
@@ -69,9 +67,12 @@ with DAG(dag_id=DAG_ID,
         }
     )
 
-    load_task = PythonOperator(
-        task_id="load_task",
-        python_callable=load
-    )
+    ###
+    # in order to load for small tables
+    ###
+    # load_task = PythonOperator(
+    #     task_id="load_task",
+    #     python_callable=load
+    # )
 
     execute_etl_task

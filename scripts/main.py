@@ -1,16 +1,12 @@
 import os
 import argparse
-import pytz
-
-from datetime import datetime, timedelta
 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql import Window as W
 from pyspark.sql import DataFrame as SparkDataFrame
 
-spark = (SparkSession.builder.appName('main').master(
-    'spark://spark:7077').config(
+spark = (SparkSession.builder.appName('main').master('local').config(
     "spark.jars.packages", "org.postgresql:postgresql:42.7.3").getOrCreate())
 spark.sparkContext.setLogLevel("INFO")
 
@@ -102,6 +98,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     source_path, destination_path = args.source, args.destination
-    print(f"----------------: {os.getcwd()}")
-    print(f"----------------: {os.listdir()}")
     main(source_path, destination_path)
